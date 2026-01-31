@@ -1,0 +1,2249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organización de Mesas - Boda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #fafaf9, #fffbeb, #f5f5f4);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(120, 113, 108, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 2.25rem;
+            color: #292524;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-subtitle {
+            color: #78716c;
+            font-size: 0.875rem;
+            font-weight: 300;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #57534e;
+            font-size: 1.125rem;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            max-width: 1280px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 0.375rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(120, 113, 108, 0.2);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            width: fit-content;
+        }
+
+        .tab-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.5rem;
+            border: none;
+            background: transparent;
+            color: #57534e;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-button:hover {
+            background: rgba(120, 113, 108, 0.05);
+        }
+
+        .tab-button.active {
+            background: #292524;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid rgba(120, 113, 108, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            color: #292524;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        input, select {
+            padding: 0.75rem 1rem;
+            border: 1px solid #e7e5e4;
+            border-radius: 0.75rem;
+            background: white;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            ring: 2px solid rgba(245, 158, 11, 0.5);
+            border-color: #f59e0b;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #44403c, #292524);
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #f59e0b, #d97706);
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(120, 113, 108, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #292524;
+            margin: 0.75rem 0 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #78716c;
+            font-weight: 300;
+        }
+
+        /* Guest List */
+        .guest-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .guest-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(120, 113, 108, 0.05);
+            border-radius: 0.75rem;
+            margin-bottom: 0.5rem;
+            cursor: move;
+            border: 1px solid rgba(120, 113, 108, 0.15);
+            transition: all 0.2s;
+        }
+
+        .guest-item:hover {
+            background: rgba(120, 113, 108, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .guest-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .guest-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: linear-gradient(to bottom right, #fef3c7, #fde68a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #92400e;
+        }
+
+        .guest-details {
+            flex: 1;
+        }
+
+        .guest-name {
+            font-weight: 500;
+            color: #292524;
+        }
+
+        .guest-category {
+            font-size: 0.75rem;
+            color: #78716c;
+        }
+
+        .guest-table-badge {
+            font-size: 0.875rem;
+            color: #92400e;
+            background: #fef3c7;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            border: 1px solid #fde68a;
+        }
+
+        .guest-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(120, 113, 108, 0.1);
+        }
+
+        .icon-btn.active {
+            background: rgba(120, 113, 108, 0.1);
+        }
+
+        /* Tables Grid */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .table-card {
+            border: 2px dashed #d6d3d1;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+        }
+
+        .table-card.full {
+            border-color: #86efac;
+            background: rgba(134, 239, 172, 0.1);
+        }
+
+        .table-card:hover {
+            border-color: #fbbf24;
+            background: rgba(251, 191, 36, 0.05);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .table-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #292524;
+        }
+
+        .table-capacity {
+            font-size: 0.75rem;
+            color: #78716c;
+        }
+
+        .table-guests {
+            min-height: 120px;
+            margin-bottom: 1rem;
+        }
+
+        .table-guest-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f5f5f4;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #a8a29e;
+            font-size: 0.875rem;
+            font-weight: 300;
+        }
+
+        /* Map Layout */
+        .map-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1.5rem;
+        }
+
+        .map-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .available-tables {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .map-table-item {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 2px solid #d6d3d1;
+            background: white;
+            margin-bottom: 0.75rem;
+            cursor: move;
+            transition: all 0.2s;
+        }
+
+        .map-table-item:hover {
+            border-color: #fbbf24;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-table-item.placed {
+            border-color: #86efac;
+            background: rgba(134, 239, 172, 0.1);
+        }
+
+        .map-canvas {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(to bottom right, #fafaf9, #fffbeb);
+            border-radius: 0.75rem;
+            border: 2px dashed #d6d3d1;
+            overflow: hidden;
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transition: background 0.3s ease;
+        }
+
+        /* Map backgrounds - Diseños realistas */
+        .map-canvas.bg-grass {
+            background: #7cb342;
+            background-image: 
+                /* Textura de pasto */
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px),
+                /* Manchas orgánicas */
+                radial-gradient(circle at 15% 25%, rgba(139,195,74,0.4) 0%, transparent 30%),
+                radial-gradient(circle at 85% 15%, rgba(104,159,56,0.3) 0%, transparent 25%),
+                radial-gradient(circle at 40% 70%, rgba(124,179,66,0.3) 0%, transparent 35%),
+                radial-gradient(circle at 70% 80%, rgba(139,195,74,0.4) 0%, transparent 28%),
+                radial-gradient(circle at 20% 60%, rgba(104,159,56,0.3) 0%, transparent 22%),
+                /* Gradiente base */
+                linear-gradient(135deg, #7cb342 0%, #558b2f 100%);
+        }
+
+        .map-canvas.bg-wood {
+            background: #8d6e63;
+            background-image: 
+                /* Vetas de madera verticales */
+                repeating-linear-gradient(90deg, 
+                    rgba(0,0,0,0.15) 0px, 
+                    rgba(0,0,0,0.15) 3px, 
+                    transparent 3px, 
+                    transparent 8px,
+                    rgba(0,0,0,0.08) 8px,
+                    rgba(0,0,0,0.08) 10px,
+                    transparent 10px,
+                    transparent 40px
+                ),
+                /* Textura irregular de madera */
+                repeating-linear-gradient(0deg, 
+                    transparent 0px,
+                    rgba(0,0,0,0.03) 2px,
+                    transparent 4px,
+                    transparent 25px
+                ),
+                /* Nudos de madera */
+                radial-gradient(ellipse at 20% 30%, rgba(0,0,0,0.2) 0%, transparent 8%),
+                radial-gradient(ellipse at 75% 60%, rgba(0,0,0,0.15) 0%, transparent 6%),
+                radial-gradient(ellipse at 45% 85%, rgba(0,0,0,0.18) 0%, transparent 7%),
+                /* Base */
+                linear-gradient(135deg, #8d6e63 0%, #6d4c41 100%);
+        }
+
+        .map-canvas.bg-marble {
+            background: #eceff1;
+            background-image: 
+                /* Vetas de mármol principales */
+                linear-gradient(135deg, transparent 30%, rgba(96,125,139,0.15) 30%, rgba(96,125,139,0.15) 32%, transparent 32%),
+                linear-gradient(45deg, transparent 45%, rgba(120,144,156,0.12) 45%, rgba(120,144,156,0.12) 47%, transparent 47%),
+                linear-gradient(-30deg, transparent 60%, rgba(84,110,122,0.1) 60%, rgba(84,110,122,0.1) 62%, transparent 62%),
+                /* Manchas sutiles */
+                radial-gradient(ellipse at 25% 20%, rgba(120,144,156,0.08) 0%, transparent 40%),
+                radial-gradient(ellipse at 70% 65%, rgba(96,125,139,0.06) 0%, transparent 35%),
+                radial-gradient(ellipse at 50% 85%, rgba(84,110,122,0.07) 0%, transparent 30%),
+                /* Textura fina */
+                repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(0,0,0,0.01) 1px, rgba(0,0,0,0.01) 2px),
+                /* Base */
+                linear-gradient(135deg, #eceff1 0%, #cfd8dc 100%);
+        }
+
+        .map-canvas.bg-concrete {
+            background: #90a4ae;
+            background-image: 
+                /* Juntas del concreto */
+                linear-gradient(to right, rgba(0,0,0,0.2) 2px, transparent 2px),
+                linear-gradient(to bottom, rgba(0,0,0,0.2) 2px, transparent 2px),
+                /* Textura granulada */
+                repeating-radial-gradient(circle at 0 0, transparent 0, rgba(0,0,0,0.03) 1px, transparent 2px),
+                /* Manchas de concreto */
+                radial-gradient(circle at 30% 40%, rgba(0,0,0,0.05) 0%, transparent 20%),
+                radial-gradient(circle at 70% 20%, rgba(255,255,255,0.03) 0%, transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(0,0,0,0.04) 0%, transparent 18%),
+                radial-gradient(circle at 85% 70%, rgba(255,255,255,0.02) 0%, transparent 22%),
+                /* Base */
+                linear-gradient(135deg, #90a4ae 0%, #607d8b 100%);
+            background-size: 120px 120px, 120px 120px, 10px 10px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+        }
+
+        .map-canvas.bg-tile {
+            background: #fafafa;
+            background-image: 
+                /* Bordes de las losetas */
+                linear-gradient(to right, rgba(0,0,0,0.2) 3px, transparent 3px),
+                linear-gradient(to bottom, rgba(0,0,0,0.2) 3px, transparent 3px),
+                /* Sombra interna de losetas */
+                linear-gradient(to right, rgba(0,0,0,0.05) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.05) 100%),
+                linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.05) 100%),
+                /* Brillo de cerámica */
+                linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%),
+                /* Base */
+                linear-gradient(135deg, #fafafa 0%, #e0e0e0 100%);
+            background-size: 100px 100px, 100px 100px, 100px 100px, 100px 100px, 200px 200px, 100% 100%;
+        }
+
+        .map-canvas.bg-carpet {
+            background: #c62828;
+            background-image: 
+                /* Textura de alfombra - patrón cruzado */
+                repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px),
+                repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px),
+                /* Textura de fibra */
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 1px, transparent 1px, transparent 3px),
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.02), rgba(0,0,0,0.02) 1px, transparent 1px, transparent 3px),
+                /* Variaciones de color */
+                radial-gradient(circle at 20% 30%, rgba(0,0,0,0.05) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(255,255,255,0.02) 0%, transparent 25%),
+                /* Base */
+                linear-gradient(135deg, #c62828 0%, #b71c1c 100%);
+        }
+
+        .map-canvas.bg-garden {
+            background: #81c784;
+            background-image:
+                /* Flores decorativas */
+                radial-gradient(circle at 15% 20%, #ffeb3b 2%, transparent 2.5%),
+                radial-gradient(circle at 14% 19%, #fff59d 1.5%, transparent 2%),
+                radial-gradient(circle at 16% 21%, #fff59d 1.5%, transparent 2%),
+                
+                radial-gradient(circle at 85% 75%, #ff80ab 2.5%, transparent 3%),
+                radial-gradient(circle at 84% 74%, #ff4081 1.5%, transparent 2%),
+                radial-gradient(circle at 86% 76%, #ff4081 1.5%, transparent 2%),
+                
+                radial-gradient(circle at 65% 25%, #e1bee7 2%, transparent 2.5%),
+                radial-gradient(circle at 64% 24%, #ce93d8 1.5%, transparent 2%),
+                
+                radial-gradient(circle at 30% 80%, #ffccbc 2%, transparent 2.5%),
+                radial-gradient(circle at 29% 79%, #ff8a65 1.5%, transparent 2%),
+                
+                /* Piedras decorativas */
+                radial-gradient(ellipse at 45% 45%, #78909c 1.5%, transparent 1.5%),
+                radial-gradient(ellipse at 70% 55%, #90a4ae 2%, transparent 2%),
+                radial-gradient(ellipse at 25% 60%, #78909c 1.8%, transparent 1.8%),
+                
+                /* Textura de pasto */
+                repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px),
+                radial-gradient(circle at 40% 35%, rgba(139,195,74,0.3) 0%, transparent 25%),
+                radial-gradient(circle at 75% 80%, rgba(104,159,56,0.2) 0%, transparent 20%),
+                /* Base */
+                linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
+        }
+
+        .map-canvas.bg-beach {
+            background: #fff8e1;
+            background-image:
+                /* Olas del mar (arriba) */
+                repeating-radial-gradient(ellipse at 50% 5%, 
+                    #4dd0e1 0%, 
+                    #26c6da 2%, 
+                    #00bcd4 4%,
+                    transparent 5%
+                ),
+                /* Espuma de olas */
+                radial-gradient(ellipse at 30% 8%, rgba(255,255,255,0.4) 0%, transparent 3%),
+                radial-gradient(ellipse at 70% 8%, rgba(255,255,255,0.3) 0%, transparent 2.5%),
+                radial-gradient(ellipse at 50% 9%, rgba(255,255,255,0.35) 0%, transparent 2%),
+                
+                /* Conchas marinas */
+                radial-gradient(ellipse at 25% 70%, #ffccbc 0.8%, transparent 0.8%),
+                radial-gradient(ellipse at 75% 45%, #ffab91 1%, transparent 1%),
+                radial-gradient(ellipse at 60% 80%, #ff8a65 0.7%, transparent 0.7%),
+                radial-gradient(ellipse at 40% 55%, #bcaaa4 0.9%, transparent 0.9%),
+                
+                /* Estrellas de mar */
+                radial-gradient(circle at 80% 75%, #ff8a80 1.2%, transparent 1.2%),
+                radial-gradient(circle at 81% 74%, #ff5252 0.3%, transparent 0.3%),
+                radial-gradient(circle at 79% 76%, #ff5252 0.3%, transparent 0.3%),
+                
+                /* Textura de arena */
+                repeating-radial-gradient(circle at 0 0, 
+                    transparent 0, 
+                    rgba(141,110,99,0.02) 1px, 
+                    transparent 2px
+                ),
+                /* Variaciones de arena */
+                radial-gradient(circle at 35% 40%, rgba(188,170,164,0.1) 0%, transparent 15%),
+                radial-gradient(circle at 65% 65%, rgba(161,136,127,0.08) 0%, transparent 18%),
+                /* Base arena */
+                linear-gradient(to bottom, #4dd0e1 0%, #4dd0e1 10%, #fff8e1 10%, #ffe0b2 100%);
+        }
+
+        .map-canvas.bg-night {
+            background: #1a237e;
+            background-image:
+                /* Estrellas grandes */
+                radial-gradient(circle at 20% 25%, #fff 1px, transparent 1px),
+                radial-gradient(circle at 75% 15%, #fff 1.2px, transparent 1.2px),
+                radial-gradient(circle at 45% 60%, #fff 0.8px, transparent 0.8px),
+                radial-gradient(circle at 85% 70%, #fff 1px, transparent 1px),
+                radial-gradient(circle at 30% 80%, #fff 1.1px, transparent 1.1px),
+                radial-gradient(circle at 65% 35%, #fff 0.9px, transparent 0.9px),
+                
+                /* Estrellas medianas */
+                radial-gradient(circle at 15% 50%, rgba(255,255,255,0.8) 0.6px, transparent 0.6px),
+                radial-gradient(circle at 55% 20%, rgba(255,255,255,0.7) 0.5px, transparent 0.5px),
+                radial-gradient(circle at 90% 45%, rgba(255,255,255,0.8) 0.7px, transparent 0.7px),
+                radial-gradient(circle at 40% 90%, rgba(255,255,255,0.6) 0.5px, transparent 0.5px),
+                
+                /* Estrellas pequeñas */
+                radial-gradient(circle at 25% 35%, rgba(255,255,255,0.5) 0.3px, transparent 0.3px),
+                radial-gradient(circle at 70% 55%, rgba(255,255,255,0.4) 0.3px, transparent 0.3px),
+                radial-gradient(circle at 50% 75%, rgba(255,255,255,0.5) 0.3px, transparent 0.3px),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.4) 0.3px, transparent 0.3px),
+                
+                /* Luna */
+                radial-gradient(circle at 85% 15%, #ffd54f 4%, transparent 4%),
+                radial-gradient(circle at 84% 14.5%, rgba(255,213,79,0.3) 5%, transparent 5%),
+                
+                /* Brillo de estrellas */
+                radial-gradient(circle at 20% 25%, rgba(255,255,255,0.2) 0%, transparent 1.5%),
+                radial-gradient(circle at 75% 15%, rgba(255,255,255,0.2) 0%, transparent 2%),
+                
+                /* Cielo degradado */
+                linear-gradient(to bottom, #0d47a1 0%, #1a237e 50%, #311b92 100%);
+        }
+
+        /* Background selector */
+        .bg-selector {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .bg-option {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid #e7e5e4;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bg-option:hover {
+            border-color: #d97706;
+            background: #fffbeb;
+        }
+
+        .bg-option.active {
+            border-color: #f59e0b;
+            background: #fef3c7;
+            font-weight: 600;
+        }
+
+        .bg-preview {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .map-label {
+            position: absolute;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e7e5e4;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #57534e;
+        }
+
+        .map-label.top {
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .map-label.bottom {
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .placed-table {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        .placed-table:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+            z-index: 10;
+        }
+
+        .placed-table.selected {
+            transform: translate(-50%, -50%) scale(1.1);
+            z-index: 20;
+        }
+
+        .placed-table.dragging {
+            opacity: 0.5;
+            cursor: move;
+        }
+
+        /* Dance Floor Styles */
+        .dance-floor {
+            position: absolute;
+            border: 3px dashed #f59e0b;
+            background: rgba(251, 191, 36, 0.15);
+            border-radius: 1rem;
+            cursor: move;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        .dance-floor:hover {
+            background: rgba(251, 191, 36, 0.25);
+            border-color: #d97706;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        }
+
+        .dance-floor.dragging {
+            opacity: 0.7;
+            cursor: move;
+        }
+
+        .dance-floor-content {
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .dance-floor-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .dance-floor-label {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #92400e;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+        }
+
+        .dance-floor-size {
+            font-size: 0.875rem;
+            color: #78716c;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .resize-handle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #f59e0b;
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: nwse-resize;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .resize-handle.bottom-right {
+            bottom: -10px;
+            right: -10px;
+        }
+
+        .dance-floor-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .shape-option {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e7e5e4;
+            border-radius: 0.5rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .shape-option:hover {
+            border-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .shape-option.active {
+            border-color: #f59e0b;
+            background: #fef3c7;
+            font-weight: 600;
+        }
+
+        .table-shape {
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .table-shape.round {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+        }
+
+        .table-shape.rectangular {
+            border-radius: 0.5rem;
+            width: 100px;
+            height: 60px;
+        }
+
+        .table-shape.empty {
+            background: linear-gradient(to bottom right, #d6d3d1, #a8a29e);
+        }
+
+        .table-shape.partial {
+            background: linear-gradient(to bottom right, #fbbf24, #f59e0b);
+        }
+
+        .table-shape.full {
+            background: linear-gradient(to bottom right, #86efac, #4ade80);
+        }
+
+        .placed-table.selected .table-shape {
+            box-shadow: 0 0 0 4px #292524, 0 0 0 6px white;
+        }
+
+        .table-label {
+            font-size: 0.875rem;
+        }
+
+        .table-count {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Scrollbar */
+        .guest-list::-webkit-scrollbar,
+        .available-tables::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .guest-list::-webkit-scrollbar-track,
+        .available-tables::-webkit-scrollbar-track {
+            background: #f5f5f4;
+            border-radius: 10px;
+        }
+
+        .guest-list::-webkit-scrollbar-thumb,
+        .available-tables::-webkit-scrollbar-thumb {
+            background: #d6d3d1;
+            border-radius: 10px;
+        }
+
+        .guest-list::-webkit-scrollbar-thumb:hover,
+        .available-tables::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e;
+        }
+
+        /* Icons */
+        .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .icon-sm {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Info banner */
+        .info-banner {
+            background: linear-gradient(to right, #fffbeb, #fafaf9);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .info-icon {
+            padding: 0.75rem;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-bar {
+            height: 0.75rem;
+            background: #f5f5f4;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #fbbf24, #f59e0b);
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-title {
+                font-size: 1.75rem;
+            }
+
+            .map-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                width: 100%;
+            }
+
+            .tab-button {
+                white-space: nowrap;
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tables-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .panel {
+                padding: 1.25rem;
+            }
+
+            .panel-title {
+                font-size: 1.125rem;
+            }
+
+            .map-canvas {
+                height: 400px;
+            }
+
+            .guest-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .guest-info {
+                width: 100%;
+            }
+
+            .guest-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .legend {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .tabs-container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div>
+                <h1 class="header-title font-serif">Organización de Mesas</h1>
+                <p class="header-subtitle">Gestiona los invitados y la distribución de tu boda</p>
+            </div>
+            <div class="header-stats font-serif">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+                <span id="totalGuests">0</span> invitados
+            </div>
+        </div>
+    </header>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-button active" data-tab="guests">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+                Invitados
+            </button>
+            <button class="tab-button" data-tab="tables">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                </svg>
+                Mesas
+            </button>
+            <button class="tab-button" data-tab="map">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"></rect>
+                </svg>
+                Mapa Visual
+            </button>
+            <button class="tab-button" data-tab="stats">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                Resumen
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Stats Tab -->
+        <div id="statsTab" class="hidden animate-in">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div style="background: linear-gradient(to bottom right, #57534e, #44403c); padding: 0.75rem; border-radius: 0.75rem; width: fit-content; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-value font-serif" id="statTotal">0</div>
+                    <div class="stat-label">Total Invitados</div>
+                </div>
+                <div class="stat-card">
+                    <div style="background: linear-gradient(to bottom right, #10b981, #059669); padding: 0.75rem; border-radius: 0.75rem; width: fit-content; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-value font-serif" id="statConfirmed">0</div>
+                    <div class="stat-label">Confirmados</div>
+                </div>
+                <div class="stat-card">
+                    <div style="background: linear-gradient(to bottom right, #f59e0b, #d97706); padding: 0.75rem; border-radius: 0.75rem; width: fit-content; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                        </svg>
+                    </div>
+                    <div class="stat-value font-serif" id="statSeated">0</div>
+                    <div class="stat-label">Asignados</div>
+                </div>
+                <div class="stat-card">
+                    <div style="background: linear-gradient(to bottom right, #ef4444, #dc2626); padding: 0.75rem; border-radius: 0.75rem; width: fit-content; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-value font-serif" id="statUnassigned">0</div>
+                    <div class="stat-label">Sin Mesa</div>
+                </div>
+            </div>
+
+            <div class="panel" style="margin-top: 1.5rem;">
+                <h3 class="panel-title font-serif">Distribución por Categoría</h3>
+                <div id="categoryStats"></div>
+            </div>
+
+            <div class="panel">
+                <h3 class="panel-title font-serif">Estado de las Mesas</h3>
+                <div id="tableStats" class="tables-grid"></div>
+            </div>
+        </div>
+
+        <!-- Guests Tab -->
+        <div id="guestsTab" class="animate-in">
+            <div class="panel">
+                <h3 class="panel-title font-serif">Agregar Invitado</h3>
+                <div class="form-grid">
+                    <input type="text" id="guestName" placeholder="Nombre completo">
+                    <select id="guestCategory">
+                        <option>Familia Novio</option>
+                        <option>Familia Novia</option>
+                        <option>Amigos</option>
+                        <option>Compañeros</option>
+                        <option>Otros</option>
+                    </select>
+                    <button class="btn-primary" onclick="addGuest()">
+                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Agregar
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3 class="panel-title font-serif">Lista de Invitados (<span id="guestCount">0</span>)</h3>
+                <div id="guestList" class="guest-list"></div>
+            </div>
+        </div>
+
+        <!-- Tables Tab -->
+        <div id="tablesTab" class="hidden animate-in">
+            <div class="panel">
+                <h3 class="panel-title font-serif">Crear Mesa</h3>
+                <div class="form-grid">
+                    <input type="text" id="tableName" placeholder="Nombre o número">
+                    <input type="number" id="tableCapacity" placeholder="Capacidad" value="8" min="1" max="20">
+                    <select id="tableShape">
+                        <option value="round">Redonda</option>
+                        <option value="rectangular">Rectangular</option>
+                    </select>
+                    <button class="btn-secondary" onclick="addTable()">
+                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Crear Mesa
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3 class="panel-title font-serif">Distribución de Mesas (<span id="tableCount">0</span>)</h3>
+                <div id="tableList" class="tables-grid"></div>
+            </div>
+        </div>
+
+        <!-- Map Tab -->
+        <div id="mapTab" class="hidden animate-in">
+            <div class="info-banner">
+                <div class="info-icon">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"></rect>
+                    </svg>
+                </div>
+                <div style="flex: 1;">
+                    <h3 class="font-serif" style="font-size: 1.125rem; color: #292524; margin-bottom: 0.5rem;">Cómo usar el mapa</h3>
+                    <ul style="font-size: 0.875rem; color: #57534e; font-weight: 300; line-height: 1.5;">
+                        <li>• Arrastra las mesas desde la barra lateral hacia el salón</li>
+                        <li>• Haz clic en una mesa para ver sus invitados</li>
+                        <li>• Usa la vista de pájaro para planificar la distribución espacial</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="map-layout">
+                <div class="map-sidebar">
+                    <!-- Dance Floor Controls -->
+                    <div class="panel">
+                        <h3 class="panel-title font-serif">🕺 Pista de Baile</h3>
+                        
+                        <div id="danceFloorControls">
+                            <div class="dance-floor-controls">
+                                <button class="shape-option" onclick="toggleDanceFloorShape('square')">
+                                    <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"></rect>
+                                    </svg>
+                                    Cuadrada
+                                </button>
+                                <button class="shape-option" onclick="toggleDanceFloorShape('circle')">
+                                    <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                                    </svg>
+                                    Circular
+                                </button>
+                            </div>
+                            
+                            <button class="btn-secondary" onclick="addDanceFloor()" style="width: 100%; margin-bottom: 0.5rem;">
+                                <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                Agregar Pista
+                            </button>
+                            
+                            <button class="btn-primary" onclick="removeDanceFloor()" style="width: 100%; background: linear-gradient(to right, #dc2626, #b91c1c);">
+                                <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                                Quitar Pista
+                            </button>
+                            
+                            <div style="margin-top: 1rem; padding: 0.75rem; background: #fffbeb; border: 1px solid #fde68a; border-radius: 0.5rem; font-size: 0.875rem; color: #78716c;">
+                                💡 Arrastra la pista para moverla. Usa el círculo naranja en la esquina para cambiar el tamaño.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel">
+                        <h3 class="panel-title font-serif">Mesas Disponibles</h3>
+                        <div id="availableTables" class="available-tables"></div>
+                    </div>
+                    <div id="selectedTablePanel" class="panel hidden">
+                        <h3 class="panel-title font-serif" id="selectedTableName"></h3>
+                        <div id="selectedTableGuests"></div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 class="panel-title font-serif" style="margin: 0;">Distribución del Salón</h3>
+                        <div style="font-size: 0.875rem; color: #78716c;">
+                            <span id="placedCount">0</span> de <span id="totalTables">0</span> mesas colocadas
+                        </div>
+                    </div>
+                    
+                    <!-- Background selector -->
+                    <div class="bg-selector">
+                        <div class="bg-option active" data-bg="default" onclick="changeMapBackground('default')">
+                            <div class="bg-preview" style="background: linear-gradient(to bottom right, #fafaf9, #fffbeb);"></div>
+                            <span>Simple</span>
+                        </div>
+                        <div class="bg-option" data-bg="grass" onclick="changeMapBackground('grass')">
+                            <div class="bg-preview" style="background: #7cb342;"></div>
+                            <span>🌿 Pasto</span>
+                        </div>
+                        <div class="bg-option" data-bg="wood" onclick="changeMapBackground('wood')">
+                            <div class="bg-preview" style="background: linear-gradient(135deg, #8d6e63, #6d4c41);"></div>
+                            <span>🪵 Madera</span>
+                        </div>
+                        <div class="bg-option" data-bg="marble" onclick="changeMapBackground('marble')">
+                            <div class="bg-preview" style="background: linear-gradient(135deg, #eceff1, #cfd8dc);"></div>
+                            <span>⚪ Mármol</span>
+                        </div>
+                        <div class="bg-option" data-bg="concrete" onclick="changeMapBackground('concrete')">
+                            <div class="bg-preview" style="background: linear-gradient(135deg, #90a4ae, #607d8b);"></div>
+                            <span>🏢 Concreto</span>
+                        </div>
+                        <div class="bg-option" data-bg="tile" onclick="changeMapBackground('tile')">
+                            <div class="bg-preview" style="background: linear-gradient(135deg, #fafafa, #e0e0e0);"></div>
+                            <span>⬜ Loseta</span>
+                        </div>
+                        <div class="bg-option" data-bg="carpet" onclick="changeMapBackground('carpet')">
+                            <div class="bg-preview" style="background: linear-gradient(135deg, #c62828, #b71c1c);"></div>
+                            <span>🟥 Alfombra</span>
+                        </div>
+                    </div>
+                    
+                    <div id="mapCanvas" class="map-canvas">
+                        <div class="map-label top">🎭 Escenario / Altar</div>
+                        <div class="map-label bottom">🚪 Entrada</div>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(to bottom right, #d6d3d1, #a8a29e);"></div>
+                            <span>Vacía</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(to bottom right, #fbbf24, #f59e0b);"></div>
+                            <span>Parcial</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(to bottom right, #86efac, #4ade80);"></div>
+                            <span>Completa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let guests = JSON.parse(localStorage.getItem('wedding-guests')) || [];
+        let tables = JSON.parse(localStorage.getItem('wedding-tables')) || [];
+        let tablePositions = JSON.parse(localStorage.getItem('wedding-table-positions')) || {};
+        let selectedTable = null;
+        let mapBackground = localStorage.getItem('wedding-map-background') || 'default';
+        let draggedTableId = null;
+        let danceFloor = JSON.parse(localStorage.getItem('wedding-dance-floor')) || null;
+        let isDraggingDanceFloor = false;
+
+        // Save to localStorage
+        function saveData() {
+            localStorage.setItem('wedding-guests', JSON.stringify(guests));
+            localStorage.setItem('wedding-tables', JSON.stringify(tables));
+            localStorage.setItem('wedding-table-positions', JSON.stringify(tablePositions));
+            localStorage.setItem('wedding-map-background', mapBackground);
+            localStorage.setItem('wedding-dance-floor', JSON.stringify(danceFloor));
+        }
+
+        // Tab management
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tab = button.dataset.tab;
+                
+                // Update active button
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Show/hide tabs
+                document.querySelectorAll('[id$="Tab"]').forEach(t => t.classList.add('hidden'));
+                document.getElementById(tab + 'Tab').classList.remove('hidden');
+                
+                // Update content
+                if (tab === 'stats') updateStats();
+                if (tab === 'map') updateMap();
+            });
+        });
+
+        // Add guest
+        function addGuest() {
+            const name = document.getElementById('guestName').value.trim();
+            const category = document.getElementById('guestCategory').value;
+            
+            if (!name) return;
+            
+            guests.push({
+                id: Date.now(),
+                name,
+                category,
+                status: 'pending',
+                tableId: null
+            });
+            
+            document.getElementById('guestName').value = '';
+            saveData();
+            renderGuests();
+            updateHeader();
+        }
+
+        // Add table
+        function addTable() {
+            const name = document.getElementById('tableName').value.trim();
+            const capacity = parseInt(document.getElementById('tableCapacity').value);
+            const shape = document.getElementById('tableShape').value;
+            
+            if (!name) return;
+            
+            tables.push({
+                id: Date.now(),
+                name,
+                capacity,
+                shape
+            });
+            
+            document.getElementById('tableName').value = '';
+            saveData();
+            renderTables();
+            updateMap();
+        }
+
+        // Remove guest
+        function removeGuest(id) {
+            guests = guests.filter(g => g.id !== id);
+            saveData();
+            renderGuests();
+            updateHeader();
+            updateMap();
+        }
+
+        // Remove table
+        function removeTable(id) {
+            guests.forEach(g => {
+                if (g.tableId === id) g.tableId = null;
+            });
+            tables = tables.filter(t => t.id !== id);
+            delete tablePositions[id];
+            saveData();
+            renderTables();
+            renderGuests();
+            updateMap();
+        }
+
+        // Update guest status
+        function updateGuestStatus(id, status) {
+            const guest = guests.find(g => g.id === id);
+            if (guest) guest.status = status;
+            saveData();
+            renderGuests();
+            updateStats();
+        }
+
+        // Assign guest to table
+        function assignGuestToTable(guestId, tableId) {
+            const guest = guests.find(g => g.id === guestId);
+            if (!guest) return;
+            
+            if (tableId) {
+                const table = tables.find(t => t.id === tableId);
+                const currentGuests = guests.filter(g => g.tableId === tableId);
+                
+                if (currentGuests.length >= table.capacity) {
+                    alert('Esta mesa ya está llena');
+                    return;
+                }
+            }
+            
+            guest.tableId = tableId;
+            saveData();
+            renderGuests();
+            renderTables();
+            updateMap();
+        }
+
+        // Render guests
+        function renderGuests() {
+            const container = document.getElementById('guestList');
+            
+            if (guests.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg style="width: 3rem; height: 3rem; margin: 0 auto 0.75rem; opacity: 0.5;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <p>Aún no hay invitados. ¡Comienza agregando el primero!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = guests.map(guest => {
+                const table = tables.find(t => t.id === guest.tableId);
+                return `
+                    <div class="guest-item" draggable="true" data-guest-id="${guest.id}">
+                        <div class="guest-info">
+                            <div class="guest-avatar font-serif">${guest.name.charAt(0).toUpperCase()}</div>
+                            <div class="guest-details">
+                                <div class="guest-name">${guest.name}</div>
+                                <div class="guest-category">${guest.category}</div>
+                            </div>
+                            ${table ? `<div class="guest-table-badge">${table.name}</div>` : ''}
+                        </div>
+                        <div class="guest-actions">
+                            <button class="icon-btn ${guest.status === 'confirmed' ? 'active' : ''}" 
+                                    onclick="updateGuestStatus(${guest.id}, 'confirmed')"
+                                    style="color: ${guest.status === 'confirmed' ? '#059669' : '#d6d3d1'}">
+                                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </button>
+                            <button class="icon-btn ${guest.status === 'pending' ? 'active' : ''}" 
+                                    onclick="updateGuestStatus(${guest.id}, 'pending')"
+                                    style="color: ${guest.status === 'pending' ? '#d97706' : '#d6d3d1'}">
+                                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </button>
+                            <button class="icon-btn ${guest.status === 'cancelled' ? 'active' : ''}" 
+                                    onclick="updateGuestStatus(${guest.id}, 'cancelled')"
+                                    style="color: ${guest.status === 'cancelled' ? '#dc2626' : '#d6d3d1'}">
+                                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                            <button class="icon-btn" onclick="removeGuest(${guest.id})" style="color: #dc2626; margin-left: 0.5rem;">
+                                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('guestCount').textContent = guests.length;
+            
+            // Add drag handlers
+            container.querySelectorAll('.guest-item').forEach(item => {
+                item.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('guestId', item.dataset.guestId);
+                });
+            });
+        }
+
+        // Render tables
+        function renderTables() {
+            const container = document.getElementById('tableList');
+            
+            if (tables.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <svg style="width: 3rem; height: 3rem; margin: 0 auto 0.75rem; opacity: 0.5;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                        </svg>
+                        <p>No hay mesas creadas. ¡Crea la primera!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = tables.map(table => {
+                const tableGuests = guests.filter(g => g.tableId === table.id);
+                const isFull = tableGuests.length >= table.capacity;
+                
+                return `
+                    <div class="table-card ${isFull ? 'full' : ''}">
+                        <div class="table-header">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem;">
+                                    ${table.shape === 'round' ? 
+                                        '<svg style="width: 1.25rem; height: 1.25rem; color: #d97706;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle></svg>' :
+                                        '<svg style="width: 1.25rem; height: 1.25rem; color: #d97706;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"></rect></svg>'
+                                    }
+                                    <span class="table-name font-serif">${table.name}</span>
+                                </div>
+                                <div class="table-capacity">${tableGuests.length}/${table.capacity} personas</div>
+                            </div>
+                            <button class="icon-btn" onclick="removeTable(${table.id})" style="color: #dc2626;">
+                                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="table-guests" ondragover="event.preventDefault()" ondrop="handleTableDrop(event, ${table.id})">
+                            ${tableGuests.length === 0 ? 
+                                '<div class="empty-state">Arrastra invitados aquí</div>' :
+                                tableGuests.map(guest => `
+                                    <div class="table-guest-item">
+                                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                            <div style="width: 1.75rem; height: 1.75rem; border-radius: 50%; background: linear-gradient(to bottom right, #fef3c7, #fde68a); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; color: #92400e;">
+                                                ${guest.name.charAt(0).toUpperCase()}
+                                            </div>
+                                            <span style="font-size: 0.875rem; color: #44403c;">${guest.name}</span>
+                                        </div>
+                                        <button class="icon-btn" onclick="assignGuestToTable(${guest.id}, null)">
+                                            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #a8a29e;">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                `).join('')
+                            }
+                        </div>
+                        <div style="padding-top: 1rem; border-top: 1px solid #e7e5e4;">
+                            <select onchange="if(this.value) { assignGuestToTable(parseInt(this.value), ${table.id}); this.value = ''; }" 
+                                    style="width: 100%; padding: 0.5rem 0.75rem; font-size: 0.875rem; border: 1px solid #e7e5e4; border-radius: 0.5rem; background: white;" 
+                                    ${isFull ? 'disabled' : ''}>
+                                <option value="">+ Asignar invitado</option>
+                                ${guests.filter(g => g.tableId === null).map(g => 
+                                    `<option value="${g.id}">${g.name}</option>`
+                                ).join('')}
+                            </select>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('tableCount').textContent = tables.length;
+        }
+
+        // Handle table drop
+        function handleTableDrop(event, tableId) {
+            event.preventDefault();
+            const guestId = parseInt(event.dataTransfer.getData('guestId'));
+            if (guestId) {
+                assignGuestToTable(guestId, tableId);
+            }
+        }
+
+        // Update header
+        function updateHeader() {
+            document.getElementById('totalGuests').textContent = guests.length;
+        }
+
+        // Update stats
+        function updateStats() {
+            const stats = {
+                total: guests.length,
+                confirmed: guests.filter(g => g.status === 'confirmed').length,
+                seated: guests.filter(g => g.tableId !== null).length,
+                unassigned: guests.filter(g => g.tableId === null).length
+            };
+            
+            document.getElementById('statTotal').textContent = stats.total;
+            document.getElementById('statConfirmed').textContent = stats.confirmed;
+            document.getElementById('statSeated').textContent = stats.seated;
+            document.getElementById('statUnassigned').textContent = stats.unassigned;
+            
+            // Category stats
+            const categories = ['Familia Novio', 'Familia Novia', 'Amigos', 'Compañeros', 'Otros'];
+            const categoryStats = document.getElementById('categoryStats');
+            
+            categoryStats.innerHTML = categories.map(category => {
+                const count = guests.filter(g => g.category === category).length;
+                const percentage = stats.total > 0 ? (count / stats.total) * 100 : 0;
+                
+                return `
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: #44403c; font-weight: 500;">
+                            <span>${category}</span>
+                            <span style="color: #78716c;">${count} (${percentage.toFixed(0)}%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Table stats
+            const tableStats = document.getElementById('tableStats');
+            
+            if (tables.length === 0) {
+                tableStats.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;">No hay mesas creadas</div>';
+                return;
+            }
+            
+            tableStats.innerHTML = tables.map(table => {
+                const tableGuests = guests.filter(g => g.tableId === table.id);
+                const occupancy = (tableGuests.length / table.capacity) * 100;
+                
+                return `
+                    <div style="border: 1px solid #e7e5e4; border-radius: 0.75rem; padding: 1.25rem; transition: box-shadow 0.2s;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                            ${table.shape === 'round' ? 
+                                '<svg style="width: 1.25rem; height: 1.25rem; color: #d97706;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle></svg>' :
+                                '<svg style="width: 1.25rem; height: 1.25rem; color: #d97706;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"></rect></svg>'
+                            }
+                            <span class="font-serif" style="font-weight: 600; color: #292524;">${table.name}</span>
+                        </div>
+                        <div style="font-size: 0.875rem; color: #57534e; margin-bottom: 0.5rem;">
+                            ${tableGuests.length} / ${table.capacity} personas
+                        </div>
+                        <div style="height: 0.5rem; background: #f5f5f4; border-radius: 9999px; overflow: hidden;">
+                            <div style="height: 100%; border-radius: 9999px; transition: width 0.3s; background: ${
+                                occupancy === 100 ? 'linear-gradient(to right, #86efac, #4ade80)' :
+                                occupancy > 80 ? 'linear-gradient(to right, #fbbf24, #f59e0b)' :
+                                'linear-gradient(to right, #60a5fa, #3b82f6)'
+                            }; width: ${occupancy}%;"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Update map
+        function updateMap() {
+            updateAvailableTables();
+            renderMapCanvas();
+            document.getElementById('totalTables').textContent = tables.length;
+            document.getElementById('placedCount').textContent = Object.keys(tablePositions).length;
+        }
+
+        // Update available tables
+        function updateAvailableTables() {
+            const container = document.getElementById('availableTables');
+            
+            if (tables.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg style="width: 2rem; height: 2rem; margin: 0 auto 0.5rem; opacity: 0.5;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                        </svg>
+                        <p style="font-size: 0.875rem;">Crea mesas primero</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = tables.map(table => {
+                const isPlaced = tablePositions[table.id];
+                const tableGuests = guests.filter(g => g.tableId === table.id);
+                
+                return `
+                    <div class="map-table-item ${isPlaced ? 'placed' : ''}" draggable="true" data-table-id="${table.id}">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            ${table.shape === 'round' ? 
+                                '<svg style="width: 1.25rem; height: 1.25rem; color: #d97706;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle></svg>' :
+                                '<svg style="width: 1.25rem; height: 1.25rem; color: #d97706;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"></rect></svg>'
+                            }
+                            <span class="font-serif" style="font-weight: 600; color: #292524;">${table.name}</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: #78716c; margin-bottom: 0.25rem;">
+                            ${tableGuests.length}/${table.capacity} personas
+                        </div>
+                        ${isPlaced ? 
+                            `<button onclick="removeTablePosition(${table.id})" style="font-size: 0.75rem; color: #dc2626; font-weight: 500; background: none; border: none; padding: 0; cursor: pointer; margin-top: 0.5rem;">Quitar del mapa</button>` 
+                            : ''}
+                    </div>
+                `;
+            }).join('');
+            
+            // Add drag handlers
+            container.querySelectorAll('.map-table-item').forEach(item => {
+                item.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('tableId', item.dataset.tableId);
+                });
+            });
+        }
+
+        // Render map canvas
+        function renderMapCanvas() {
+            const canvas = document.getElementById('mapCanvas');
+            const existingTables = canvas.querySelectorAll('.placed-table');
+            existingTables.forEach(t => t.remove());
+            
+            // Remove existing dance floor
+            const existingDanceFloor = canvas.querySelector('.dance-floor');
+            if (existingDanceFloor) existingDanceFloor.remove();
+            
+            // Render dance floor first (so it appears behind tables)
+            if (danceFloor) {
+                const danceFloorEl = document.createElement('div');
+                danceFloorEl.className = 'dance-floor';
+                danceFloorEl.style.left = `${danceFloor.x}%`;
+                danceFloorEl.style.top = `${danceFloor.y}%`;
+                danceFloorEl.style.width = `${danceFloor.width}px`;
+                danceFloorEl.style.height = `${danceFloor.height}px`;
+                danceFloorEl.style.transform = 'translate(-50%, -50%)';
+                
+                if (danceFloor.shape === 'circle') {
+                    danceFloorEl.style.borderRadius = '50%';
+                }
+                
+                danceFloorEl.innerHTML = `
+                    <div class="dance-floor-content">
+                        <div class="dance-floor-icon">💃🕺</div>
+                        <div class="dance-floor-label font-serif">Pista de Baile</div>
+                        <div class="dance-floor-size">${danceFloor.width}px × ${danceFloor.height}px</div>
+                    </div>
+                    <div class="resize-handle bottom-right"></div>
+                `;
+                
+                // Drag handlers for dance floor
+                let dragStartX, dragStartY, originalX, originalY;
+                
+                danceFloorEl.addEventListener('mousedown', (e) => {
+                    if (e.target.classList.contains('resize-handle')) return;
+                    
+                    isDraggingDanceFloor = true;
+                    dragStartX = e.clientX;
+                    dragStartY = e.clientY;
+                    originalX = danceFloor.x;
+                    originalY = danceFloor.y;
+                    danceFloorEl.classList.add('dragging');
+                    e.preventDefault();
+                });
+                
+                // Touch handlers for dance floor (mobile)
+                danceFloorEl.addEventListener('touchstart', (e) => {
+                    if (e.target.classList.contains('resize-handle')) return;
+                    
+                    const touch = e.touches[0];
+                    isDraggingDanceFloor = true;
+                    dragStartX = touch.clientX;
+                    dragStartY = touch.clientY;
+                    originalX = danceFloor.x;
+                    originalY = danceFloor.y;
+                    danceFloorEl.classList.add('dragging');
+                    e.preventDefault();
+                });
+                
+                // Resize handle
+                const resizeHandle = danceFloorEl.querySelector('.resize-handle');
+                let isResizing = false;
+                let resizeStartX, resizeStartY, originalWidth, originalHeight;
+                
+                resizeHandle.addEventListener('mousedown', (e) => {
+                    isResizing = true;
+                    resizeStartX = e.clientX;
+                    resizeStartY = e.clientY;
+                    originalWidth = danceFloor.width;
+                    originalHeight = danceFloor.height;
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                
+                resizeHandle.addEventListener('touchstart', (e) => {
+                    const touch = e.touches[0];
+                    isResizing = true;
+                    resizeStartX = touch.clientX;
+                    resizeStartY = touch.clientY;
+                    originalWidth = danceFloor.width;
+                    originalHeight = danceFloor.height;
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                
+                // Global mouse move for dragging
+                document.addEventListener('mousemove', (e) => {
+                    if (isDraggingDanceFloor && !isResizing) {
+                        const rect = canvas.getBoundingClientRect();
+                        const deltaX = ((e.clientX - dragStartX) / rect.width) * 100;
+                        const deltaY = ((e.clientY - dragStartY) / rect.height) * 100;
+                        
+                        danceFloor.x = Math.max(10, Math.min(90, originalX + deltaX));
+                        danceFloor.y = Math.max(10, Math.min(90, originalY + deltaY));
+                        
+                        danceFloorEl.style.left = `${danceFloor.x}%`;
+                        danceFloorEl.style.top = `${danceFloor.y}%`;
+                    }
+                    
+                    if (isResizing) {
+                        const deltaX = e.clientX - resizeStartX;
+                        const deltaY = e.clientY - resizeStartY;
+                        
+                        danceFloor.width = Math.max(100, originalWidth + deltaX);
+                        danceFloor.height = Math.max(100, originalHeight + deltaY);
+                        
+                        danceFloorEl.style.width = `${danceFloor.width}px`;
+                        danceFloorEl.style.height = `${danceFloor.height}px`;
+                        
+                        const sizeLabel = danceFloorEl.querySelector('.dance-floor-size');
+                        if (sizeLabel) {
+                            sizeLabel.textContent = `${danceFloor.width}px × ${danceFloor.height}px`;
+                        }
+                    }
+                });
+                
+                // Touch move
+                document.addEventListener('touchmove', (e) => {
+                    if (isDraggingDanceFloor && !isResizing) {
+                        const touch = e.touches[0];
+                        const rect = canvas.getBoundingClientRect();
+                        const deltaX = ((touch.clientX - dragStartX) / rect.width) * 100;
+                        const deltaY = ((touch.clientY - dragStartY) / rect.height) * 100;
+                        
+                        danceFloor.x = Math.max(10, Math.min(90, originalX + deltaX));
+                        danceFloor.y = Math.max(10, Math.min(90, originalY + deltaY));
+                        
+                        danceFloorEl.style.left = `${danceFloor.x}%`;
+                        danceFloorEl.style.top = `${danceFloor.y}%`;
+                    }
+                    
+                    if (isResizing) {
+                        const touch = e.touches[0];
+                        const deltaX = touch.clientX - resizeStartX;
+                        const deltaY = touch.clientY - resizeStartY;
+                        
+                        danceFloor.width = Math.max(100, originalWidth + deltaX);
+                        danceFloor.height = Math.max(100, originalHeight + deltaY);
+                        
+                        danceFloorEl.style.width = `${danceFloor.width}px`;
+                        danceFloorEl.style.height = `${danceFloor.height}px`;
+                        
+                        const sizeLabel = danceFloorEl.querySelector('.dance-floor-size');
+                        if (sizeLabel) {
+                            sizeLabel.textContent = `${danceFloor.width}px × ${danceFloor.height}px`;
+                        }
+                    }
+                });
+                
+                // Global mouse up
+                document.addEventListener('mouseup', () => {
+                    if (isDraggingDanceFloor || isResizing) {
+                        saveData();
+                    }
+                    isDraggingDanceFloor = false;
+                    isResizing = false;
+                    danceFloorEl.classList.remove('dragging');
+                });
+                
+                // Touch end
+                document.addEventListener('touchend', () => {
+                    if (isDraggingDanceFloor || isResizing) {
+                        saveData();
+                    }
+                    isDraggingDanceFloor = false;
+                    isResizing = false;
+                    danceFloorEl.classList.remove('dragging');
+                });
+                
+                canvas.appendChild(danceFloorEl);
+            }
+            
+            if (Object.keys(tablePositions).length === 0 && !danceFloor) {
+                const empty = document.createElement('div');
+                empty.className = 'empty-state';
+                empty.style.position = 'absolute';
+                empty.style.top = '50%';
+                empty.style.left = '50%';
+                empty.style.transform = 'translate(-50%, -50%)';
+                empty.style.textAlign = 'center';
+                empty.style.pointerEvents = 'none';
+                empty.innerHTML = `
+                    <svg style="width: 4rem; height: 4rem; margin: 0 auto 1rem; opacity: 0.3;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"></rect>
+                    </svg>
+                    <p class="font-serif" style="font-size: 1.125rem; margin-bottom: 0.5rem;">Arrastra las mesas aquí</p>
+                    <p style="font-size: 0.875rem;">para visualizar la distribución del salón</p>
+                `;
+                canvas.appendChild(empty);
+                return;
+            }
+            
+            tables.forEach(table => {
+                const position = tablePositions[table.id];
+                if (!position) return;
+                
+                const tableGuests = guests.filter(g => g.tableId === table.id);
+                const isFull = tableGuests.length >= table.capacity;
+                const status = isFull ? 'full' : tableGuests.length > 0 ? 'partial' : 'empty';
+                
+                const tableEl = document.createElement('div');
+                tableEl.className = `placed-table ${selectedTable?.id === table.id ? 'selected' : ''}`;
+                tableEl.style.left = `${position.x}%`;
+                tableEl.style.top = `${position.y}%`;
+                tableEl.style.transform = 'translate(-50%, -50%)';
+                tableEl.draggable = true;
+                tableEl.dataset.tableId = table.id;
+                
+                tableEl.innerHTML = `
+                    <div class="table-shape ${table.shape} ${status}">
+                        <span class="table-label font-serif">${table.name}</span>
+                        <span class="table-count">${tableGuests.length}/${table.capacity}</span>
+                        ${isFull ? `
+                            <div class="status-badge">
+                                <svg style="width: 0.75rem; height: 0.75rem; color: #059669;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                // Click to select
+                tableEl.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectedTable = table;
+                    renderMapCanvas();
+                    showSelectedTable(table);
+                });
+                
+                // Desktop drag handlers
+                tableEl.addEventListener('dragstart', (e) => {
+                    draggedTableId = table.id;
+                    e.dataTransfer.effectAllowed = 'move';
+                    tableEl.classList.add('dragging');
+                });
+                
+                tableEl.addEventListener('dragend', (e) => {
+                    tableEl.classList.remove('dragging');
+                    draggedTableId = null;
+                });
+                
+                // Mobile touch handlers
+                let touchStartX, touchStartY, originalLeft, originalTop;
+                let isDragging = false;
+                
+                tableEl.addEventListener('touchstart', (e) => {
+                    const touch = e.touches[0];
+                    touchStartX = touch.clientX;
+                    touchStartY = touch.clientY;
+                    originalLeft = position.x;
+                    originalTop = position.y;
+                    isDragging = true;
+                    tableEl.classList.add('dragging');
+                    e.preventDefault();
+                });
+                
+                tableEl.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    
+                    const touch = e.touches[0];
+                    const rect = canvas.getBoundingClientRect();
+                    const x = ((touch.clientX - rect.left) / rect.width) * 100;
+                    const y = ((touch.clientY - rect.top) / rect.height) * 100;
+                    
+                    tableEl.style.left = `${Math.max(5, Math.min(95, x))}%`;
+                    tableEl.style.top = `${Math.max(5, Math.min(95, y))}%`;
+                    
+                    e.preventDefault();
+                });
+                
+                tableEl.addEventListener('touchend', (e) => {
+                    if (!isDragging) return;
+                    
+                    const rect = canvas.getBoundingClientRect();
+                    const finalLeft = parseFloat(tableEl.style.left);
+                    const finalTop = parseFloat(tableEl.style.top);
+                    
+                    tablePositions[table.id] = {
+                        x: finalLeft,
+                        y: finalTop
+                    };
+                    
+                    isDragging = false;
+                    tableEl.classList.remove('dragging');
+                    saveData();
+                    e.preventDefault();
+                });
+                
+                canvas.appendChild(tableEl);
+            });
+        }
+
+        // Show selected table
+        function showSelectedTable(table) {
+            const panel = document.getElementById('selectedTablePanel');
+            const nameEl = document.getElementById('selectedTableName');
+            const guestsEl = document.getElementById('selectedTableGuests');
+            
+            nameEl.textContent = table.name;
+            
+            const tableGuests = guests.filter(g => g.tableId === table.id);
+            
+            if (tableGuests.length === 0) {
+                guestsEl.innerHTML = '<div class="empty-state">Sin invitados asignados</div>';
+            } else {
+                guestsEl.innerHTML = `
+                    <div style="max-height: 200px; overflow-y: auto;" class="guest-list">
+                        ${tableGuests.map(guest => `
+                            <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: #fafaf9; border-radius: 0.5rem; margin-bottom: 0.5rem;">
+                                <div style="width: 1.5rem; height: 1.5rem; border-radius: 50%; background: linear-gradient(to bottom right, #fef3c7, #fde68a); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; color: #92400e;">
+                                    ${guest.name.charAt(0).toUpperCase()}
+                                </div>
+                                <span style="font-size: 0.875rem; color: #44403c;">${guest.name}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            panel.classList.remove('hidden');
+        }
+
+        // Remove table position
+        function removeTablePosition(tableId) {
+            delete tablePositions[tableId];
+            saveData();
+            updateMap();
+        }
+
+        // Change map background
+        function changeMapBackground(bg) {
+            mapBackground = bg;
+            const canvas = document.getElementById('mapCanvas');
+            
+            // Remove all background classes
+            canvas.className = 'map-canvas';
+            
+            // Add new background class
+            if (bg !== 'default') {
+                canvas.classList.add('bg-' + bg);
+            }
+            
+            // Update active button
+            document.querySelectorAll('.bg-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.bg === bg) {
+                    option.classList.add('active');
+                }
+            });
+            
+            saveData();
+        }
+
+        // Dance Floor Functions
+        function addDanceFloor() {
+            if (!danceFloor) {
+                danceFloor = {
+                    x: 50,
+                    y: 50,
+                    width: 200,
+                    height: 200,
+                    shape: 'square'
+                };
+                saveData();
+                renderMapCanvas();
+            }
+        }
+
+        function removeDanceFloor() {
+            danceFloor = null;
+            saveData();
+            renderMapCanvas();
+        }
+
+        function toggleDanceFloorShape(shape) {
+            if (!danceFloor) {
+                danceFloor = {
+                    x: 50,
+                    y: 50,
+                    width: 200,
+                    height: 200,
+                    shape: shape
+                };
+            } else {
+                danceFloor.shape = shape;
+            }
+            saveData();
+            renderMapCanvas();
+        }
+
+        // Handle map drop
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('mapCanvas');
+            
+            canvas.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+            
+            canvas.addEventListener('drop', (e) => {
+                e.preventDefault();
+                
+                // Check if we're moving a table that's already placed
+                let tableId;
+                if (draggedTableId) {
+                    tableId = draggedTableId;
+                } else {
+                    tableId = parseInt(e.dataTransfer.getData('tableId'));
+                }
+                
+                if (!tableId) return;
+                
+                const rect = canvas.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                
+                tablePositions[tableId] = {
+                    x: Math.max(5, Math.min(95, x)),
+                    y: Math.max(5, Math.min(95, y))
+                };
+                
+                saveData();
+                updateMap();
+            });
+            
+            // Apply saved background
+            changeMapBackground(mapBackground);
+        });
+
+        // Enter key handlers
+        document.getElementById('guestName').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addGuest();
+        });
+
+        document.getElementById('tableName').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTable();
+        });
+
+        // Initialize
+        renderGuests();
+        renderTables();
+        updateHeader();
+        updateStats();
+        updateMap();
+    </script>
+</body>
+</html>
