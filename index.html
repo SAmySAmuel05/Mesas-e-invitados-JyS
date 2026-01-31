@@ -407,6 +407,7 @@
             margin-bottom: 0.75rem;
             cursor: move;
             transition: all 0.2s;
+            position: relative;
         }
 
         .map-table-item:hover {
@@ -417,6 +418,117 @@
         .map-table-item.placed {
             border-color: #86efac;
             background: rgba(134, 239, 172, 0.1);
+        }
+
+        /* Mobile quick action buttons */
+        .quick-actions {
+            display: none;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .quick-action-btn {
+            flex: 1;
+            padding: 0.375rem 0.5rem;
+            border-radius: 0.375rem;
+            border: 1px solid #e7e5e4;
+            background: white;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            min-height: 36px;
+        }
+
+        .quick-action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .quick-action-btn.place {
+            background: linear-gradient(to right, #10b981, #059669);
+            color: white;
+            border-color: #059669;
+            font-weight: 500;
+        }
+
+        .quick-action-btn.remove {
+            background: linear-gradient(to right, #ef4444, #dc2626);
+            color: white;
+            border-color: #dc2626;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .quick-actions {
+                display: flex;
+            }
+
+            .map-table-item {
+                cursor: default;
+            }
+        }
+
+        /* Mobile placement mode */
+        .placement-mode-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to right, #10b981, #059669);
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: none;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .placement-mode-banner.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .placement-instructions {
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .placement-instructions strong {
+            font-size: 1.125rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .placement-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .cancel-placement {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 2px solid white;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cancel-placement:active {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .map-canvas {
@@ -844,6 +956,7 @@
             font-size: 0.875rem;
             color: #78716c;
             margin-top: 0.25rem;
+            display: none;
         }
 
         .resize-handle {
@@ -1392,12 +1505,24 @@
                 <div style="flex: 1;">
                     <h3 class="font-serif" style="font-size: 1.125rem; color: #292524; margin-bottom: 0.5rem;">Cómo usar el mapa</h3>
                     <ul style="font-size: 0.875rem; color: #57534e; font-weight: 300; line-height: 1.5;">
-                        <li>• Arrastra las mesas desde la barra lateral hacia el salón</li>
+                        <li class="desktop-only">• Arrastra las mesas desde la barra lateral hacia el salón</li>
+                        <li class="mobile-only">• Usa el botón "Colocar en Mapa" y toca donde quieres la mesa</li>
                         <li>• Haz clic en una mesa para ver sus invitados</li>
-                        <li>• Usa la vista de pájaro para planificar la distribución espacial</li>
+                        <li class="desktop-only">• Usa la vista de pájaro para planificar la distribución espacial</li>
+                        <li class="mobile-only">• Arrastra las mesas ya colocadas para moverlas</li>
                     </ul>
                 </div>
             </div>
+
+            <style>
+                .desktop-only { display: list-item; }
+                .mobile-only { display: none; }
+                
+                @media (max-width: 768px) {
+                    .desktop-only { display: none; }
+                    .mobile-only { display: list-item; }
+                }
+            </style>
 
             <div class="map-layout">
                 <div class="map-sidebar">
@@ -1510,6 +1635,22 @@
         </div>
     </div>
 
+    <!-- Mobile Placement Mode Banner -->
+    <div id="placementBanner" class="placement-mode-banner">
+        <div class="placement-instructions">
+            <strong id="placementTableName">Mesa 1</strong>
+            <span>Toca en el mapa donde quieres colocar la mesa</span>
+        </div>
+        <div class="placement-actions">
+            <button class="cancel-placement" onclick="cancelPlacement()">
+                <svg style="width: 1rem; height: 1rem; display: inline-block; vertical-align: middle; margin-right: 0.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+                Cancelar
+            </button>
+        </div>
+    </div>
+
     <script>
         // Data storage
         let guests = JSON.parse(localStorage.getItem('wedding-guests')) || [];
@@ -1520,6 +1661,10 @@
         let draggedTableId = null;
         let danceFloor = JSON.parse(localStorage.getItem('wedding-dance-floor')) || null;
         let isDraggingDanceFloor = false;
+        
+        // Mobile placement mode
+        let placementMode = false;
+        let tableToPlace = null;
 
         // Save to localStorage
         function saveData() {
@@ -1915,19 +2060,37 @@
                         <div style="font-size: 0.75rem; color: #78716c; margin-bottom: 0.25rem;">
                             ${tableGuests.length}/${table.capacity} personas
                         </div>
-                        ${isPlaced ? 
-                            `<button onclick="removeTablePosition(${table.id})" style="font-size: 0.75rem; color: #dc2626; font-weight: 500; background: none; border: none; padding: 0; cursor: pointer; margin-top: 0.5rem;">Quitar del mapa</button>` 
-                            : ''}
+                        
+                        <!-- Mobile Quick Actions -->
+                        <div class="quick-actions">
+                            ${isPlaced ? 
+                                `<button class="quick-action-btn remove" onclick="removeTableFromMap(${table.id})">
+                                    <svg style="width: 0.875rem; height: 0.875rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                    Quitar
+                                </button>` :
+                                `<button class="quick-action-btn place" onclick="enterPlacementMode(${table.id})">
+                                    <svg style="width: 0.875rem; height: 0.875rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    Colocar en Mapa
+                                </button>`
+                            }
+                        </div>
                     </div>
                 `;
             }).join('');
             
-            // Add drag handlers
-            container.querySelectorAll('.map-table-item').forEach(item => {
-                item.addEventListener('dragstart', (e) => {
-                    e.dataTransfer.setData('tableId', item.dataset.tableId);
+            // Add drag handlers only for desktop
+            if (window.innerWidth > 768) {
+                container.querySelectorAll('.map-table-item').forEach(item => {
+                    item.addEventListener('dragstart', (e) => {
+                        e.dataTransfer.setData('tableId', item.dataset.tableId);
+                    });
                 });
-            });
+            }
         }
 
         // Render map canvas
@@ -2331,6 +2494,53 @@
             renderMapCanvas();
         }
 
+        // Mobile placement mode functions
+        function enterPlacementMode(tableId) {
+            const table = tables.find(t => t.id === tableId);
+            if (!table) return;
+            
+            placementMode = true;
+            tableToPlace = table;
+            
+            // Show banner
+            const banner = document.getElementById('placementBanner');
+            const tableName = document.getElementById('placementTableName');
+            banner.classList.add('active');
+            tableName.textContent = table.name;
+            
+            // Highlight the canvas
+            const canvas = document.getElementById('mapCanvas');
+            canvas.style.border = '3px solid #10b981';
+            canvas.style.cursor = 'crosshair';
+        }
+
+        function cancelPlacement() {
+            placementMode = false;
+            tableToPlace = null;
+            
+            // Hide banner
+            const banner = document.getElementById('placementBanner');
+            banner.classList.remove('active');
+            
+            // Reset canvas
+            const canvas = document.getElementById('mapCanvas');
+            canvas.style.border = '2px dashed #d6d3d1';
+            canvas.style.cursor = 'default';
+        }
+
+        function placeTableAt(x, y) {
+            if (!placementMode || !tableToPlace) return;
+            
+            tablePositions[tableToPlace.id] = { x, y };
+            saveData();
+            updateMap();
+            cancelPlacement();
+        }
+
+        function removeTableFromMap(tableId) {
+            removeTablePosition(tableId);
+        }
+
         // Handle map drop
         document.addEventListener('DOMContentLoaded', () => {
             const canvas = document.getElementById('mapCanvas');
@@ -2363,6 +2573,17 @@
                 
                 saveData();
                 updateMap();
+            });
+            
+            // Touch/click handler for placement mode
+            canvas.addEventListener('click', (e) => {
+                if (!placementMode || !tableToPlace) return;
+                
+                const rect = canvas.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                
+                placeTableAt(Math.max(5, Math.min(95, x)), Math.max(5, Math.min(95, y)));
             });
             
             // Apply saved background
